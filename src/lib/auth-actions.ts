@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { LoginSchema, RegisterSchema, type AuthResponse } from "@/types/auth";
 import { apiRequest, ApiError } from "@/lib/api";
+import { z } from "zod";
 
 export type ActionState = {
   success: boolean;
@@ -46,6 +47,21 @@ export async function loginAction(
       path: "/",
     });
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      const errors: Record<string, string[]> = {};
+      error.errors.forEach((err) => {
+        const path = err.path[0] as string;
+        if (!errors[path]) {
+          errors[path] = [];
+        }
+        errors[path].push(err.message);
+      });
+      return {
+        success: false,
+        message: "Validation failed",
+        errors,
+      };
+    }
     if (error instanceof ApiError) {
       return {
         success: false,
@@ -103,6 +119,21 @@ export async function registerAction(
       path: "/",
     });
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      const errors: Record<string, string[]> = {};
+      error.errors.forEach((err) => {
+        const path = err.path[0] as string;
+        if (!errors[path]) {
+          errors[path] = [];
+        }
+        errors[path].push(err.message);
+      });
+      return {
+        success: false,
+        message: "Validation failed",
+        errors,
+      };
+    }
     if (error instanceof ApiError) {
       return {
         success: false,

@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
@@ -17,12 +15,12 @@ export class ApiError extends Error {
 export interface FetchOptions extends RequestInit {
   requiresAuth?: boolean;
 }
-
-export async function apiRequest<T>(
+// Client-side API function
+export async function clientApiRequest<T>(
   endpoint: string,
-  options: FetchOptions = {}
+  options: Omit<FetchOptions, "requiresAuth"> & { token?: string } = {}
 ): Promise<T> {
-  const { requiresAuth = false, ...fetchOptions } = options;
+  const { token, ...fetchOptions } = options;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -44,14 +42,7 @@ export async function apiRequest<T>(
     }
   }
 
-  if (requiresAuth) {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("auth-token")?.value;
-
-    if (!token) {
-      throw new ApiError("No authentication token found", 401);
-    }
-
+  if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
