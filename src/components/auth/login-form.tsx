@@ -34,6 +34,7 @@ export function LoginForm() {
               type="email"
               id="email"
               name="email"
+              defaultValue={state.formData?.email || ""}
               required
               placeholder="john@example.com"
               className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
@@ -57,6 +58,7 @@ export function LoginForm() {
               type={showPassword ? "text" : "password"}
               id="password"
               name="password"
+              defaultValue={state.formData?.password || ""}
               required
               placeholder="••••••••"
               className="pl-10 pr-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"

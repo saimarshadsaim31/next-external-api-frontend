@@ -10,6 +10,7 @@ export type ActionState = {
   success: boolean;
   message?: string;
   errors?: Record<string, string[]>;
+  formData?: Record<string, string>;
 };
 
 export async function loginAction(
@@ -18,8 +19,8 @@ export async function loginAction(
 ): Promise<ActionState> {
   try {
     const rawData = {
-      email: formData.get("email"),
-      password: formData.get("password"),
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
     };
 
     const validatedData = LoginSchema.parse(rawData);
@@ -60,6 +61,10 @@ export async function loginAction(
         success: false,
         message: "Validation failed",
         errors,
+        formData: {
+          email: (formData.get("email") as string) || "",
+          password: (formData.get("password") as string) || "",
+        },
       };
     }
     if (error instanceof ApiError) {
@@ -67,17 +72,29 @@ export async function loginAction(
         success: false,
         message: error.message,
         errors: error.errors,
+        formData: {
+          email: (formData.get("email") as string) || "",
+          password: (formData.get("password") as string) || "",
+        },
       };
     }
     if (error instanceof Error) {
       return {
         success: false,
         message: error.message,
+        formData: {
+          email: (formData.get("email") as string) || "",
+          password: (formData.get("password") as string) || "",
+        },
       };
     }
     return {
       success: false,
       message: "An unexpected error occurred",
+      formData: {
+        email: (formData.get("email") as string) || "",
+        password: (formData.get("password") as string) || "",
+      },
     };
   }
 
@@ -90,10 +107,10 @@ export async function registerAction(
 ): Promise<ActionState> {
   try {
     const rawData = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      password: formData.get("password"),
-      password_confirmation: formData.get("password_confirmation"),
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      password_confirmation: formData.get("password_confirmation") as string,
     };
 
     const validatedData = RegisterSchema.parse(rawData);
@@ -132,6 +149,13 @@ export async function registerAction(
         success: false,
         message: "Validation failed",
         errors,
+        formData: {
+          name: (formData.get("name") as string) || "",
+          email: (formData.get("email") as string) || "",
+          password: (formData.get("password") as string) || "",
+          password_confirmation:
+            (formData.get("password_confirmation") as string) || "",
+        },
       };
     }
     if (error instanceof ApiError) {
@@ -139,17 +163,38 @@ export async function registerAction(
         success: false,
         message: error.message,
         errors: error.errors,
+        formData: {
+          name: (formData.get("name") as string) || "",
+          email: (formData.get("email") as string) || "",
+          password: (formData.get("password") as string) || "",
+          password_confirmation:
+            (formData.get("password_confirmation") as string) || "",
+        },
       };
     }
     if (error instanceof Error) {
       return {
         success: false,
         message: error.message,
+        formData: {
+          name: (formData.get("name") as string) || "",
+          email: (formData.get("email") as string) || "",
+          password: (formData.get("password") as string) || "",
+          password_confirmation:
+            (formData.get("password_confirmation") as string) || "",
+        },
       };
     }
     return {
       success: false,
       message: "An unexpected error occurred",
+      formData: {
+        name: (formData.get("name") as string) || "",
+        email: (formData.get("email") as string) || "",
+        password: (formData.get("password") as string) || "",
+        password_confirmation:
+          (formData.get("password_confirmation") as string) || "",
+      },
     };
   }
 

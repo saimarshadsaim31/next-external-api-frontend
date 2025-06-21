@@ -35,6 +35,7 @@ export function RegisterForm() {
               type="text"
               id="name"
               name="name"
+              defaultValue={state.formData?.name || ""}
               required
               placeholder="John Doe"
               className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
@@ -58,6 +59,7 @@ export function RegisterForm() {
               type="email"
               id="email"
               name="email"
+              defaultValue={state.formData?.email || ""}
               required
               placeholder="john@example.com"
               className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
@@ -81,6 +83,7 @@ export function RegisterForm() {
               type={showPassword ? "text" : "password"}
               id="password"
               name="password"
+              defaultValue={state.formData?.password || ""}
               required
               placeholder="••••••••"
               className="pl-10 pr-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
@@ -117,6 +120,7 @@ export function RegisterForm() {
               type={showConfirmPassword ? "text" : "password"}
               id="password_confirmation"
               name="password_confirmation"
+              defaultValue={state.formData?.password_confirmation || ""}
               required
               placeholder="••••••••"
               className="pl-10 pr-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
